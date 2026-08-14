@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Service & Repair Tracker - AutoTrack PRO</title>
+  <meta name="description" content="State-of-the-art vehicle maintenance, repair log, fuel efficiency, and expense tracking system.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Website Header Nav -->
+  <header class="site-header">
+    <a href="index.html" class="site-brand">
+      <div class="brand-icon">🏎️</div>
+      <div class="brand-title">
+        AutoTrack <span>PRO</span>
+      </div>
+    </a>
+    <ul class="site-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="tracker.html" class="active">Tracker App</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div>
+      <button class="btn btn-yellow btn-sm" onclick="App.openYellowTrackerModal('services')">
+        📊 Total Services Table
+      </button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🏎️</div>
+        <div class="brand-title">
+          AutoTrack <span>PRO</span>
+        </div>
+      </div>
+
+      <ul class="nav-list">
+        <li class="nav-item active" data-tab="dashboard">
+          <span class="icon">📊</span>
+          <span>Dashboard</span>
+        </li>
+        <li class="nav-item" data-tab="garage">
+          <span class="icon">🚘</span>
+          <span>My Garage</span>
+        </li>
+        <li class="nav-item" data-tab="services">
+          <span class="icon">📋</span>
+          <span>Service Log</span>
+        </li>
+        <li class="nav-item" data-tab="reminders">
+          <span class="icon">🔔</span>
+          <span>Reminders</span>
+          <span class="badge-count" id="reminderNavBadge">0</span>
+        </li>
+        <li class="nav-item" data-tab="fuel">
+          <span class="icon">⚡</span>
+          <span>Fuel & EV Energy</span>
+        </li>
+        <li class="nav-item" data-tab="parts">
+          <span class="icon">📦</span>
+          <span>Parts Inventory</span>
+        </li>
+        <li class="nav-item" data-tab="analytics">
+          <span class="icon">📈</span>
+          <span>Analytics</span>
+        </li>
+        <li class="nav-item" data-tab="passbook">
+          <span class="icon">📄</span>
+          <span>Service Passbook</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <span>AutoTrack v2.4</span>
+        <button onclick="App.resetDemoData()" title="Reset Demo Data" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-size:12px;">🔄 Reset</button>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <main class="main-wrapper">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="vehicle-selector-wrapper">
+          <span class="selector-label">Active Garage:</span>
+          <select id="vehicleDropdown" class="vehicle-dropdown">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-yellow btn-sm" onclick="App.openYellowTrackerModal('services')" title="View Yellow Service Table Modal">
+            📊 Total Services Table
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="ExportManager.exportCSV(App.state)" title="Export Service Log as CSV">
+            📥 Export CSV
+          </button>
+          <button class="btn btn-emerald btn-sm" onclick="App.openModal('logFuelModal')">
+            ⚡ Log Fuel/Charge
+          </button>
+          <button class="btn btn-primary" onclick="App.openModal('logServiceModal')">
+            <span>+ Log Service</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="page-container">
+
+        <!-- ================= TAB 1: DASHBOARD ================= -->
+        <section id="tab-dashboard" class="page-tab active">
+          <div class="page-header">
+            <div>
+              <h2>Garage Dashboard</h2>
+              <p>Overview of fleet health, recent service history, and upcoming maintenance.</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-yellow" onclick="App.openYellowTrackerModal('services')">
+                📊 Total Services Table
+              </button>
+              <button class="btn btn-secondary" onclick="App.openModal('addVehicleModal')">
+                + Add Vehicle
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards Grid -->
+          <div class="kpi-grid">
+            <div class="card kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Spend</span>
+                <div class="kpi-icon">💰</div>
+              </div>
+              <div class="kpi-value" id="kpiTotalSpent">$0.00</div>
+              <div class="kpi-sub">Verified garage log</div>
+            </div>
+
+            <div class="card kpi-card amber">
+              <div class="kpi-header">
+                <span class="kpi-title">Avg. Service Cost</span>
+                <div class="kpi-icon">🛠️</div>
+              </div>
+              <div class="kpi-value" id="kpiAvgService">$0.00</div>
+              <div class="kpi-sub">Per completed maintenance</div>
+            </div>
+
+            <div class="card kpi-card emerald">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Fuel / Energy</span>
+                <div class="kpi-icon">⛽</div>
+              </div>
+              <div class="kpi-value" id="kpiFuelSpent">$0.00</div>
+              <div class="kpi-sub">Refuel & Charge sessions</div>
+            </div>
+
+            <div class="card kpi-card violet">
+              <div class="kpi-header">
+                <span class="kpi-title">Estimated Cost / Mile</span>
+                <div class="kpi-icon">📉</div>
+              </div>
+              <div class="kpi-value" id="kpiCostPerMile">$0.00 / mi</div>
+              <div class="kpi-sub">Total spend / odometer</div>
+            </div>
+          </div>
+
+          <!-- Charts Quick Row -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px;">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3>Category Cost Distribution</h3>
+                <button class="btn btn-secondary btn-sm" onclick="App.switchTab('analytics')">Full Analytics ➔</button>
+              </div>
+              <div id="categoryChartContainer" style="height: 220px;"></div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3>Monthly Maintenance Trend</h3>
+                <span style="font-size: 12px; color: var(--text-muted);">Last 6 Months</span>
+              </div>
+              <div id="monthlyTrendChartContainer" style="height: 220px;"></div>
+            </div>
+          </div>
+
+          <!-- Garage Summary Cards -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h3>Garage Vehicles</h3>
+              <button class="btn btn-secondary btn-sm" onclick="App.switchTab('garage')">View All Garage ➔</button>
+            </div>
+            <div class="vehicles-grid" id="dashboardGarageGrid">
+              <!-- Vehicle cards rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 2: GARAGE ================= -->
+        <section id="tab-garage" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>My Garage</h2>
+              <p>Manage your cars, trucks, motorcycles, and electric vehicles.</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openModal('addVehicleModal')">
+              + Add New Vehicle
+            </button>
+          </div>
+          <div class="vehicles-grid" id="garageGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ================= TAB 3: SERVICES ================= -->
+        <section id="tab-services" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Service & Repair History</h2>
+              <p>Complete chronological history of oil changes, repairs, tire swaps, and inspections.</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openModal('logServiceModal')">
+              + Log New Service
+            </button>
+          </div>
+
+          <div class="card">
+            <!-- Filter Bar -->
+            <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+              <input type="text" id="serviceSearchInput" class="form-input" style="flex: 1;" placeholder="🔍 Search service name, shop, or notes...">
+              <select id="serviceCategoryFilter" class="form-input" style="width: 220px;">
+                <option value="ALL">All Service Categories</option>
+                <option value="Routine">Routine Maintenance</option>
+                <option value="Repair">Unscheduled Repair</option>
+                <option value="Tires">Tires & Alignment</option>
+                <option value="EV System">EV & Battery System</option>
+                <option value="Detailing">Detailing & Body</option>
+              </select>
+            </div>
+
+            <!-- Service Table -->
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date & Odometer</th>
+                    <th>Service Performed</th>
+                    <th>Category</th>
+                    <th>Service Shop / Tech</th>
+                    <th>Total Cost</th>
+                    <th>Receipt</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="serviceTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 4: REMINDERS ================= -->
+        <section id="tab-reminders" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Maintenance Reminders</h2>
+              <p>Smart alerts for upcoming mileage intervals, fluid flushes, and scheduled factory inspections.</p>
+            </div>
+            <button class="btn btn-yellow" onclick="App.openModal('addReminderModal')">
+              + Set New Reminder
+            </button>
+          </div>
+
+          <div class="reminders-list" id="remindersList">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+
+        <!-- ================= TAB 5: FUEL & EV ================= -->
+        <section id="tab-fuel" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Fuel & EV Energy Log</h2>
+              <p>Track gasoline refueling, diesel stops, and EV charging sessions with automatic MPG & efficiency calculation.</p>
+            </div>
+            <button class="btn btn-emerald" onclick="App.openModal('logFuelModal')">
+              + Log Refuel / Charge
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date & Odometer</th>
+                    <th>Vehicle</th>
+                    <th>Volume / Energy</th>
+                    <th>Price per Unit</th>
+                    <th>Total Cost</th>
+                    <th>Efficiency</th>
+                    <th>Location / Station</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="fuelTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 6: PARTS ================= -->
+        <section id="tab-parts" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Spare Parts & Inventory</h2>
+              <p>Track spare oil filters, wiper blades, spark plugs, brake pads, and fluids in stock or installed.</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openModal('addPartModal')">
+              + Add Part to Inventory
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Part Name & Number</th>
+                    <th>Category</th>
+                    <th>Compatible Vehicle</th>
+                    <th>Unit Cost</th>
+                    <th>Vendor / Store</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="partsTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 7: ANALYTICS ================= -->
+        <section id="tab-analytics" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Vehicle Expense Analytics</h2>
+              <p>In-depth cost distribution, mileage trajectory, and long-term ownership trends.</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div class="card">
+              <h3 style="margin-bottom: 20px;">Expense Breakdown by Category</h3>
+              <div id="categoryChartContainer" style="height: 240px;"></div>
+            </div>
+            <div class="card">
+              <h3 style="margin-bottom: 20px;">6-Month Maintenance Spending</h3>
+              <div id="monthlyTrendChartContainer" style="height: 240px;"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 8: SERVICE PASSBOOK ================= -->
+        <section id="tab-passbook" class="page-tab">
+          <div class="page-header">
+            <div>
+              <h2>Digital Service Passbook</h2>
+              <p>Official printable vehicle maintenance history report for resale proof and car buyers.</p>
+            </div>
+            <button class="btn btn-primary" onclick="ExportManager.printPassbook()">
+              🖨️ Print / Save PDF Report
+            </button>
+          </div>
+
+          <div id="passbookViewContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Modal 1: Add Vehicle -->
+  <div class="modal-backdrop" id="addVehicleModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Add New Vehicle to Garage</h3>
+        <button class="modal-close" onclick="App.closeModal('addVehicleModal')">✕</button>
+      </div>
+      <form id="addVehicleForm">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Make (e.g. Porsche, Tesla, BMW)</label>
+              <input type="text" name="make" class="form-input" placeholder="Porsche" required>
+            </div>
+            <div class="form-group">
+              <label>Model (e.g. 911, Model Y, M3)</label>
+              <input type="text" name="model" class="form-input" placeholder="911 Carrera S" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Year</label>
+              <input type="number" name="year" class="form-input" value="2023" min="1950" max="2027" required>
+            </div>
+            <div class="form-group">
+              <label>Fuel / Powertrain Type</label>
+              <select name="type" class="form-input">
+                <option value="Gasoline">Gasoline</option>
+                <option value="Electric">Electric (EV)</option>
+                <option value="Hybrid">Hybrid / PHEV</option>
+                <option value="Diesel">Diesel</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Current Odometer (miles)</label>
+              <input type="number" name="odometer" class="form-input" placeholder="15000" required>
+            </div>
+            <div class="form-group">
+              <label>License Plate</label>
+              <input type="text" name="licensePlate" class="form-input" placeholder="ABC-1234">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>VIN (Vehicle Identification Number)</label>
+            <input type="text" name="vin" class="form-input" placeholder="17-digit VIN code">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Estimated Annual Miles</label>
+              <input type="number" name="annualMileage" class="form-input" value="12000">
+            </div>
+            <div class="form-group">
+              <label>Image URL (Optional)</label>
+              <input type="text" name="image" class="form-input" placeholder="assets/images/porsche_911.png">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notes / Vehicle Specs</label>
+            <textarea name="notes" class="form-input" rows="2" placeholder="Trim details, modifications, dealer contact..."></textarea>
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('addVehicleModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Vehicle</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Log Service -->
+  <div class="modal-backdrop" id="logServiceModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Log Completed Service / Repair</h3>
+        <button class="modal-close" onclick="App.closeModal('logServiceModal')">✕</button>
+      </div>
+      <form id="logServiceForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Vehicle</label>
+            <select name="vehicleId" class="form-input" required></select>
+          </div>
+          <div class="form-group">
+            <label>Service Description / Title</label>
+            <input type="text" name="serviceName" class="form-input" placeholder="Full Synthetic Oil Change & Filter" required>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Service Category</label>
+              <select name="category" class="form-input">
+                <option value="Routine">Routine Maintenance</option>
+                <option value="Repair">Unscheduled Repair</option>
+                <option value="Tires">Tires & Alignment</option>
+                <option value="EV System">EV & Battery System</option>
+                <option value="Detailing">Detailing & Wash</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Service Date</label>
+              <input type="date" name="date" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Odometer at Service (miles)</label>
+              <input type="number" name="odometer" class="form-input" placeholder="15200" required>
+            </div>
+            <div class="form-group">
+              <label>Total Cost ($)</label>
+              <input type="number" step="0.01" name="cost" class="form-input" placeholder="125.50" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Service Shop / Dealership</label>
+              <input type="text" name="shop" class="form-input" placeholder="Apex Autoworks">
+            </div>
+            <div class="form-group">
+              <label>Technician Name</label>
+              <input type="text" name="technician" class="form-input" placeholder="Mike R.">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Invoice / Receipt Number</label>
+            <input type="text" name="receiptNumber" class="form-input" placeholder="INV-88910">
+          </div>
+          <div class="form-group">
+            <label>Notes / Parts Replaced</label>
+            <textarea name="notes" class="form-input" rows="2" placeholder="Replaced 6 quarts 5W-30 oil, OEM filter kit..."></textarea>
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('logServiceModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Service Log</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Reminder -->
+  <div class="modal-backdrop" id="addReminderModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Schedule Maintenance Reminder</h3>
+        <button class="modal-close" onclick="App.closeModal('addReminderModal')">✕</button>
+      </div>
+      <form id="addReminderForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Vehicle</label>
+            <select name="vehicleId" class="form-input" required></select>
+          </div>
+          <div class="form-group">
+            <label>Reminder Task Name</label>
+            <input type="text" name="taskName" class="form-input" placeholder="Brake Fluid Flush & Inspection" required>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Due Mileage</label>
+              <input type="number" name="dueMileage" class="form-input" placeholder="30000" required>
+            </div>
+            <div class="form-group">
+              <label>Target Due Date</label>
+              <input type="date" name="dueDate" class="form-input">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Estimated Cost ($)</label>
+              <input type="number" step="0.01" name="estimatedCost" class="form-input" placeholder="150.00">
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select name="priority" class="form-input">
+                <option value="High">High Priority</option>
+                <option value="Medium" selected>Medium Priority</option>
+                <option value="Low">Low Priority</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('addReminderModal')">Cancel</button>
+            <button type="submit" class="btn btn-yellow">Create Reminder</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Log Fuel / Energy -->
+  <div class="modal-backdrop" id="logFuelModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Log Refueling or EV Charging</h3>
+        <button class="modal-close" onclick="App.closeModal('logFuelModal')">✕</button>
+      </div>
+      <form id="logFuelForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Vehicle</label>
+            <select name="vehicleId" class="form-input" required></select>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" name="date" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label>Odometer Reading (mi)</label>
+              <input type="number" name="odometer" class="form-input" placeholder="28100" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Volume / Energy Unit</label>
+              <select name="unit" class="form-input">
+                <option value="Gallons">Gallons (Gas/Diesel)</option>
+                <option value="kWh">kWh (Electric EV)</option>
+                <option value="Liters">Liters</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Amount Added</label>
+              <input type="number" step="0.01" name="amount" class="form-input" placeholder="14.5" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Price Per Unit ($)</label>
+              <input type="number" step="0.001" name="costPerUnit" class="form-input" placeholder="4.25">
+            </div>
+            <div class="form-group">
+              <label>Total Fill Cost ($)</label>
+              <input type="number" step="0.01" name="totalCost" class="form-input" placeholder="61.62" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Station / Charger Location</label>
+            <input type="text" name="location" class="form-input" placeholder="Chevron - Super Premium 93 / Tesla Supercharger">
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('logFuelModal')">Cancel</button>
+            <button type="submit" class="btn btn-emerald">Save Fuel Record</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Add Part -->
+  <div class="modal-backdrop" id="addPartModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Add Spare Part to Inventory</h3>
+        <button class="modal-close" onclick="App.closeModal('addPartModal')">✕</button>
+      </div>
+      <form id="addPartForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Compatible Vehicle</label>
+            <select name="vehicleId" class="form-input" required></select>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Part Name</label>
+              <input type="text" name="partName" class="form-input" placeholder="OEM Engine Air Filter" required>
+            </div>
+            <div class="form-group">
+              <label>Part Number (P/N)</label>
+              <input type="text" name="partNumber" class="form-input" placeholder="17801-F0050">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Category</label>
+              <select name="category" class="form-input">
+                <option value="Filters">Filters</option>
+                <option value="Brakes">Brakes</option>
+                <option value="Wipers">Wiper Blades</option>
+                <option value="Fluids">Fluids & Oil</option>
+                <option value="Spark Plugs">Spark Plugs / Ignition</option>
+                <option value="Electrical">Electrical & Battery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Quantity</label>
+              <input type="number" name="qty" class="form-input" value="1" min="1" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Unit Price ($)</label>
+              <input type="number" step="0.01" name="price" class="form-input" placeholder="28.00" required>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status" class="form-input">
+                <option value="In Stock">In Stock</option>
+                <option value="Installed">Installed</option>
+                <option value="Ordered">On Order</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Vendor / Supplier</label>
+            <input type="text" name="vendor" class="form-input" placeholder="FCP Euro / RockAuto / Dealer">
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('addPartModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Part</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Yellow Tracker Table Modal -->
+  <div class="modal-backdrop" id="yellowTrackerModal">
+    <div class="modal-window yellow-modal-window">
+      <div class="modal-header" style="background: #facc15; color: #0f172a;">
+        <h3 id="yellowModalTitle" style="color: #0f172a;">Total Services</h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <select id="yellowTableTypeSelect" onchange="App.renderYellowTable(this.value)" style="background: rgba(255,255,255,0.95); border: 1px solid #d97706; padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 13px; color: #000; cursor: pointer; outline: none;">
+            <option value="services" selected>Total Services & Repairs</option>
+            <option value="vehicles">Total Garage Vehicles</option>
+            <option value="parts">Total Spare Parts</option>
+            <option value="catering">Total Food & Refreshments</option>
+          </select>
+          <button class="modal-close" onclick="App.closeModal('yellowTrackerModal')" style="color: #0f172a;">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 0;">
+        <div class="table-container" style="border: none; border-radius: 0;">
+          <table class="yellow-table">
+            <thead id="yellowTableHeader"></thead>
+            <tbody id="yellowTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Application Entry Points -->
+  <script src="js/mockData.js"></script>
+  <script src="js/components/vehicleManager.js"></script>
+  <script src="js/components/serviceManager.js"></script>
+  <script src="js/components/fuelManager.js"></script>
+  <script src="js/components/analyticsEngine.js"></script>
+  <script src="js/components/partsManager.js"></script>
+  <script src="js/components/exportManager.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

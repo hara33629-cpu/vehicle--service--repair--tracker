@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoTrack PRO - Vehicle Service & Repair Tracker</title>
+  <meta name="description" content="Next-generation vehicle service tracking, maintenance logs, fuel efficiency analytics, and spare parts management.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" class="site-brand">
+      <div class="brand-icon">🏎️</div>
+      <div class="brand-title">
+        AutoTrack <span>PRO</span>
+      </div>
+    </a>
+    <ul class="site-nav">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="tracker.html">Tracker App</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div>
+      <a href="tracker.html" class="btn btn-primary btn-sm">
+        🚀 Launch Tracker App
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-banner">
+    <div class="hero-badge">
+      <span>⚡ Next-Gen Fleet & Vehicle Intelligence</span>
+    </div>
+    <h1 class="hero-title">Vehicle Service & Repair<br>Tracking System</h1>
+    <p class="hero-subtitle">
+      Eliminate unexpected maintenance costs. AutoTrack PRO gives auto enthusiasts, mechanics, and fleet managers real-time expense tracking, maintenance alerts, and digital service passbooks.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="tracker.html" class="btn btn-primary" style="padding: 14px 28px; font-size: 16px;">
+        🏎️ Launch Garage Tracker
+      </a>
+      <button class="btn btn-yellow" onclick="App.openYellowTrackerModal('services')" style="padding: 14px 28px; font-size: 16px;">
+        📊 Open Total Services Table
+      </button>
+      <a href="services.html" class="btn btn-secondary" style="padding: 14px 28px; font-size: 16px;">
+        🛠️ Explore Services
+      </a>
+    </div>
+  </section>
+
+  <!-- Fleet Statistics Bar -->
+  <section class="stats-bar">
+    <div class="stats-container">
+      <div>
+        <div class="stat-number">15,000+</div>
+        <div class="stat-label">Active Garage Vehicles</div>
+      </div>
+      <div>
+        <div class="stat-number">$2.4M+</div>
+        <div class="stat-label">Saved in Unplanned Repairs</div>
+      </div>
+      <div>
+        <div class="stat-number">99.8%</div>
+        <div class="stat-label">Maintenance Accuracy</div>
+      </div>
+      <div>
+        <div class="stat-number">4.9 / 5.0</div>
+        <div class="stat-label">Driver Satisfaction Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid -->
+  <section class="page-container" style="padding-top: 20px;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <h2 style="font-size: 36px; margin-bottom: 12px;">Everything You Need for Vehicle Care</h2>
+      <p style="color: var(--text-secondary); max-width: 640px; margin: 0 auto;">Designed specifically for luxury sports cars, electric EVs, hybrid commuters, and commercial fleets.</p>
+    </div>
+
+    <div class="features-grid" style="margin: 0; padding: 0;">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Interactive Expense Analytics</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">Instant breakdown of monthly maintenance spending, category distribution charts, and cost-per-mile trajectory.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🚘</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Multi-Vehicle Garage</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">Track Porsche, Tesla, Toyota, BMW, and commercial trucks in a unified high-resolution garage interface.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Yellow Service Table View</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">View service logs, vehicles, spare parts, and catering in our signature bright yellow modal table layout.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Smart Service Reminders</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">Receive mileage and date-based notifications for oil flushes, tire swaps, and high-voltage EV battery checks.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Fuel & EV Charging Log</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">Calculate exact MPG for gas/diesel vehicles and miles-per-kWh efficiency for electric vehicles.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3 style="font-size: 20px; margin-bottom: 10px;">Digital Service Passbook</h3>
+        <p style="color: var(--text-secondary); font-size: 14px;">Generate official, printable PDF maintenance history records for verified resale value proof.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Yellow Table Banner Card -->
+  <section class="page-container" style="padding-top: 40px;">
+    <div class="card" style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(17, 24, 39, 0.8)); border: 1px solid rgba(241, 196, 15, 0.3); padding: 48px; border-radius: var(--radius-lg); text-align: center;">
+      <span class="category-tag tag-tires" style="margin-bottom: 16px;">⭐ Featured Interface</span>
+      <h2 style="font-size: 32px; margin-bottom: 12px;">Try the Live Yellow Table View</h2>
+      <p style="color: var(--text-secondary); max-width: 640px; margin: 0 auto 28px;">Experience the signature golden yellow modal table with vehicle images, price metrics, category tags, and discount calculations.</p>
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <button class="btn btn-yellow" onclick="App.openYellowTrackerModal('services')" style="padding: 12px 24px;">
+          📊 Open Total Services
+        </button>
+        <button class="btn btn-yellow" onclick="App.openYellowTrackerModal('catering')" style="padding: 12px 24px;">
+          🍱 Open Total Food Table
+        </button>
+        <a href="tracker.html" class="btn btn-primary" style="padding: 12px 24px;">
+          🚀 Open Full Tracker App
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #0b0f19; border-top: 1px solid var(--border-color); padding: 48px 40px 24px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 40px;">
+      <div>
+        <div class="site-brand" style="margin-bottom: 16px;">
+          <div class="brand-icon">🏎️</div>
+          <div class="brand-title">AutoTrack <span>PRO</span></div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6;">
+          The ultimate vehicle service & repair tracker for luxury cars, EVs, and commercial fleets.
+        </p>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Navigation</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services & Care</a></li>
+          <li><a href="tracker.html">Garage Tracker App</a></li>
+          <li><a href="contact.html">Contact & Support</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Service Modules</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <li><a href="tracker.html">Synthetic Oil Services</a></li>
+          <li><a href="tracker.html">EV System Diagnostics</a></li>
+          <li><a href="tracker.html">Brake & Rotor Care</a></li>
+          <li><a href="tracker.html">Tire Swaps & Alignment</a></li>
+          <li><a href="tracker.html">Spare Parts Inventory</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Contact Info</h4>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">📍 100 Performance Way, Autoplex District</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">📞 +1 (800) 555-AUTO</p>
+        <p style="font-size: 13px; color: var(--text-muted);">✉️ support@autotrackpro.com</p>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 13px; color: var(--text-muted);">
+      © 2026 AutoTrack PRO. All rights reserved. Built for Vehicle Service & Repair Tracking.
+    </div>
+  </footer>
+
+  <!-- Modal: Yellow Total Services Table -->
+  <div class="modal-backdrop" id="yellowTrackerModal">
+    <div class="modal-window yellow-modal-window">
+      <div class="modal-header" style="background: #facc15; color: #0f172a;">
+        <h3 id="yellowModalTitle" style="color: #0f172a;">Total Services</h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <select id="yellowTableTypeSelect" onchange="App.renderYellowTable(this.value)" style="background: rgba(255,255,255,0.95); border: 1px solid #d97706; padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 13px; color: #000; cursor: pointer; outline: none;">
+            <option value="services" selected>Total Services & Repairs</option>
+            <option value="vehicles">Total Garage Vehicles</option>
+            <option value="parts">Total Spare Parts</option>
+            <option value="catering">Total Food & Refreshments</option>
+          </select>
+          <button class="modal-close" onclick="App.closeModal('yellowTrackerModal')" style="color: #0f172a;">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 0;">
+        <div class="table-container" style="border: none; border-radius: 0;">
+          <table class="yellow-table">
+            <thead id="yellowTableHeader"></thead>
+            <tbody id="yellowTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/mockData.js"></script>
+  <script src="js/components/vehicleManager.js"></script>
+  <script src="js/components/serviceManager.js"></script>
+  <script src="js/components/fuelManager.js"></script>
+  <script src="js/components/analyticsEngine.js"></script>
+  <script src="js/components/partsManager.js"></script>
+  <script src="js/components/exportManager.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services & Maintenance Packages - AutoTrack PRO</title>
+  <meta name="description" content="Explore our automotive services, maintenance packages, EV diagnostics, and yellow service catalog.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" class="site-brand">
+      <div class="brand-icon">🏎️</div>
+      <div class="brand-title">
+        AutoTrack <span>PRO</span>
+      </div>
+    </a>
+    <ul class="site-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="tracker.html">Tracker App</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div>
+      <a href="tracker.html" class="btn btn-primary btn-sm">
+        🚀 Launch Tracker App
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-banner" style="padding-bottom: 40px;">
+    <div class="hero-badge">
+      <span>🛠️ Factory Recommended Auto Care</span>
+    </div>
+    <h1 class="hero-title">Automotive Service & Maintenance</h1>
+    <p class="hero-subtitle">
+      From routine synthetic oil changes to high-voltage EV battery flushes and performance brake overhauls.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 16px; margin-top: 20px;">
+      <button class="btn btn-yellow" onclick="App.openYellowTrackerModal('services')" style="padding: 12px 24px;">
+        📊 Open Total Services Table (Yellow View)
+      </button>
+      <button class="btn btn-primary" onclick="App.openModal('bookServiceModal')" style="padding: 12px 24px;">
+        📅 Book Service Appointment
+      </button>
+    </div>
+  </section>
+
+  <!-- Service Packages Grid -->
+  <section class="page-container" style="padding-top: 20px;">
+    <div class="features-grid" style="margin: 0; padding: 0;">
+
+      <!-- Package 1 -->
+      <div class="card" style="padding: 32px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div class="feature-icon" style="margin-bottom: 0;">🛢️</div>
+          <span class="category-tag tag-routine">Routine Care</span>
+        </div>
+        <h3 style="font-size: 22px; margin-bottom: 8px;">Synthetic Oil & Filter Service</h3>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">Full Mobil 1 0W-40 or 5W-30 synthetic fluid replacement, OEM filter kit, washer replacement, and 21-point vehicle safety check.</p>
+        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 24px; font-weight: 700; color: #fff;">$125.00</span>
+          <button class="btn btn-secondary btn-sm" onclick="App.openModal('bookServiceModal')">Book Now</button>
+        </div>
+      </div>
+
+      <!-- Package 2 -->
+      <div class="card" style="padding: 32px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div class="feature-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); margin-bottom: 0;">⚡</div>
+          <span class="category-tag tag-ev">EV Battery & HVAC</span>
+        </div>
+        <h3 style="font-size: 22px; margin-bottom: 8px;">EV High-Voltage & Air Service</h3>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">Dual HEPA cabin air filter replacement, anti-microbial evaporator coil cleanse, and high-voltage battery coolant check.</p>
+        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 24px; font-weight: 700; color: #fff;">$140.00</span>
+          <button class="btn btn-secondary btn-sm" onclick="App.openModal('bookServiceModal')">Book Now</button>
+        </div>
+      </div>
+
+      <!-- Package 3 -->
+      <div class="card" style="padding: 32px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div class="feature-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red); margin-bottom: 0;">🛑</div>
+          <span class="category-tag tag-repair">Repair & Brakes</span>
+        </div>
+        <h3 style="font-size: 22px; margin-bottom: 8px;">Ceramic Brake Pads & Rotor Resurfacing</h3>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">Low-dust ceramic brake pads, precision rotor resurfacing, high-temp caliper pin lube, and brake fluid moisture test.</p>
+        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 24px; font-weight: 700; color: #fff;">$450.00</span>
+          <button class="btn btn-secondary btn-sm" onclick="App.openModal('bookServiceModal')">Book Now</button>
+        </div>
+      </div>
+
+      <!-- Package 4 -->
+      <div class="card" style="padding: 32px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div class="feature-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); margin-bottom: 0;">🛞</div>
+          <span class="category-tag tag-tires">Performance Tires</span>
+        </div>
+        <h3 style="font-size: 22px; margin-bottom: 8px;">Performance Tire Mount & Alignment</h3>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">Precision high-speed wheel balancing, Michelin / Pirelli tire mounting, and 4-wheel computerized laser alignment.</p>
+        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 24px; font-weight: 700; color: #fff;">$920.00</span>
+          <button class="btn btn-secondary btn-sm" onclick="App.openModal('bookServiceModal')">Book Now</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #0b0f19; border-top: 1px solid var(--border-color); padding: 48px 40px 24px; margin-top: 60px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 40px;">
+      <div>
+        <div class="site-brand" style="margin-bottom: 16px;">
+          <div class="brand-icon">🏎️</div>
+          <div class="brand-title">AutoTrack <span>PRO</span></div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6;">
+          The ultimate vehicle service & repair tracker for luxury cars, EVs, and commercial fleets.
+        </p>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Navigation</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services & Care</a></li>
+          <li><a href="tracker.html">Garage Tracker App</a></li>
+          <li><a href="contact.html">Contact & Support</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Service Modules</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <li><a href="tracker.html">Synthetic Oil Services</a></li>
+          <li><a href="tracker.html">EV System Diagnostics</a></li>
+          <li><a href="tracker.html">Brake & Rotor Care</a></li>
+          <li><a href="tracker.html">Tire Swaps & Alignment</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 16px;">Contact Info</h4>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">📍 100 Performance Way, Autoplex District</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">📞 +1 (800) 555-AUTO</p>
+        <p style="font-size: 13px; color: var(--text-muted);">✉️ support@autotrackpro.com</p>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 13px; color: var(--text-muted);">
+      © 2026 AutoTrack PRO. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Modal: Book Service Appointment -->
+  <div class="modal-backdrop" id="bookServiceModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Book Service Appointment</h3>
+        <button class="modal-close" onclick="App.closeModal('bookServiceModal')">✕</button>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Appointment request submitted! Our service team will contact you shortly.'); App.closeModal('bookServiceModal');">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-input" placeholder="Alex Morgan" required>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" class="form-input" placeholder="alex@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" class="form-input" placeholder="(555) 019-2834" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Vehicle (Year / Make / Model)</label>
+              <input type="text" class="form-input" placeholder="2023 Porsche 911" required>
+            </div>
+            <div class="form-group">
+              <label>Preferred Date</label>
+              <input type="date" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Select Service</label>
+            <select class="form-input">
+              <option>Synthetic Oil & Filter Service ($125)</option>
+              <option>EV High-Voltage & Air Service ($140)</option>
+              <option>Ceramic Brake Pads & Rotors ($450)</option>
+              <option>Performance Tire Mount & Alignment ($920)</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="App.closeModal('bookServiceModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit Booking</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Yellow Total Services Table -->
+  <div class="modal-backdrop" id="yellowTrackerModal">
+    <div class="modal-window yellow-modal-window">
+      <div class="modal-header" style="background: #facc15; color: #0f172a;">
+        <h3 id="yellowModalTitle" style="color: #0f172a;">Total Services</h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <select id="yellowTableTypeSelect" onchange="App.renderYellowTable(this.value)" style="background: rgba(255,255,255,0.95); border: 1px solid #d97706; padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 13px; color: #000; cursor: pointer; outline: none;">
+            <option value="services" selected>Total Services & Repairs</option>
+            <option value="vehicles">Total Garage Vehicles</option>
+            <option value="parts">Total Spare Parts</option>
+            <option value="catering">Total Food & Refreshments</option>
+          </select>
+          <button class="modal-close" onclick="App.closeModal('yellowTrackerModal')" style="color: #0f172a;">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 0;">
+        <div class="table-container" style="border: none; border-radius: 0;">
+          <table class="yellow-table">
+            <thead id="yellowTableHeader"></thead>
+            <tbody id="yellowTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/mockData.js"></script>
+  <script src="js/components/vehicleManager.js"></script>
+  <script src="js/components/serviceManager.js"></script>
+  <script src="js/components/fuelManager.js"></script>
+  <script src="js/components/analyticsEngine.js"></script>
+  <script src="js/components/partsManager.js"></script>
+  <script src="js/components/exportManager.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
